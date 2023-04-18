@@ -2,11 +2,7 @@
 # exit on error
 set -o errexit
 
-python3 -m venv venv
+pip install -r requirements.txt
 
-source venv/bin/activate
-
-python3 -m pip install -r requirements.txt
-
-#ßpython manage.py collectstatic --no-input
-python3 manage.py migrate
+python manage.py collectstatic --no-input
+python manage.py migrate
