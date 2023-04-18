@@ -7,7 +7,7 @@ db.sqlite3
 media
 grp-mkbot-venv/
 mkbot/credentials/
-staticfiles/
+staticfiles/*
 
 # Backup files # 
 *.bak 
