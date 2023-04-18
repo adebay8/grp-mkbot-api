@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "graphene_django",
     "stores",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -143,3 +145,10 @@ GRAPHENE = {
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = (
     str(BASE_DIR) + "/mkbot/credentials/mkbot-383411-ff93af541b3a.json"
 )
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # Here
+MEDIA_URL = "/media/"
