@@ -1,18 +1,22 @@
 from google.cloud import speech, language_v1
+from google.cloud import storage
+import uuid
+import os
 
 
 class SpeechTextConverter:
-    def __init__(self, uri):
-        self.audio_uri = uri
-
-    def transcribe_speech(self):
+    def transcribe_speech(self, uri):
         client = speech.SpeechClient()
-        audio = speech.RecognitionAudio(uri=self.audio_uri)
+        audio = speech.RecognitionAudio(uri=uri)
+
         config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-            sample_rate_hertz=16000,
-            language_code="en-US",
+            encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
+            sample_rate_hertz=48000,
+            language_code="en-us",
+            model="command_and_search",
+            use_enhanced=True,
         )
+
         response = client.recognize(config=config, audio=audio)
 
         transcription = [
@@ -63,3 +67,16 @@ class SpeechTextConverter:
             ).name
 
         return word_entity_mapping
+
+    def upload_to_gcs(self, file_path):
+        storage_client = storage.Client()
+        bucket_name = "mkbot_shopper_recording"
+        bucket = storage_client.get_bucket(bucket_name)
+
+        object_name = os.path.basename(file_path)
+        blob = bucket.blob(object_name)
+        blob.upload_from_filename(file_path)
+
+        link = f"gs://{bucket_name}/{object_name}"
+
+        return link

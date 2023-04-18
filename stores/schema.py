@@ -1,31 +1,31 @@
 import graphene
-from graphene_django import DjangoObjectType
 from .models import Store, Category
-
-
-class CategoryType(DjangoObjectType):
-    class Meta:
-        model = Category
-        fields = "__all__"
-
-
-class StoreType(DjangoObjectType):
-    class Meta:
-        model = Store
-        fields = "__all__"
+from .types import CategoryType, StoreType
 
 
 class Query(graphene.ObjectType):
-    stores = graphene.List(StoreType)
+    stores = graphene.List(StoreType, name=graphene.String())
+    store = graphene.Field(StoreType, name=graphene.String(required=True))
     categories = graphene.List(CategoryType, name=graphene.String(required=False))
 
-    def resolve_stores(root, info):
+    def resolve_stores(root, info, **kwargs):
+        if "name" in kwargs:
+            try:
+                return Store.objects.filter(name__icontains=kwargs.get("name"))
+            except Store.DoesNotExist:
+                return None
         return Store.objects.select_related("category").all()
+
+    def resolve_store(root, info, **kwargs):
+        try:
+            return Store.objects.get(name__icontains=kwargs.get("name"))
+        except Store.DoesNotExist:
+            return None
 
     def resolve_categories(root, info, **kwargs):
         if "name" in kwargs:
             try:
-                return Category.objects.filter(name=kwargs.get("name"))
+                return Category.objects.filter(name__icontains=kwargs.get("name"))
             except Category.DoesNotExist:
                 return None
 
