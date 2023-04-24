@@ -14,6 +14,7 @@ google-api-core==2.11.0
 google-auth==2.17.3
 google-cloud-core==2.3.2
 google-cloud-language==2.9.1
+google-cloud-secret-manager==2.16.1
 google-cloud-speech==2.19.0
 google-cloud-storage==2.8.0
 google-crc32c==1.5.0
@@ -24,6 +25,7 @@ graphene-django==3.0.0
 graphene-file-upload==1.3.0
 graphql-core==3.2.3
 graphql-relay==3.2.0
+grpc-google-iam-v1==0.12.6
 grpcio==1.53.0
 grpcio-status==1.53.0
 gunicorn==20.1.0
