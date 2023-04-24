@@ -1,0 +1,16 @@
+runtime: python39 # or another supported version
+
+instance_class: F2
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: "mkbot.settings"
+  APPENGINE_URL: https://mkbot-383411.nw.r.appspot.com
+
+entrypoint: gunicorn -b :$PORT mkbot.wsgi:application
+
+handlers:
+  - url: /.*
+    script: auto
+
+runtime_config:
+  python_version: 3

@@ -31,7 +31,7 @@ class StoreNode(models.Model):
         on_delete=models.SET_NULL,
         related_name="next_store_nodes",
     )
-    location_cell = models.CharField(max_length=10)
+    location_cell = models.CharField(max_length=255)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
